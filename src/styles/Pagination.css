@@ -1,0 +1,41 @@
+.pagination-box {
+    display: flex;
+    gap: 1rem;
+    width: 85%;
+    justify-content: center;
+    align-items: center;
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid #38B2AC;
+}
+
+.pagination-box button {
+    padding: 0.5rem;
+    cursor: pointer;
+    outline: none;
+    border: none;
+    background-color: transparent;
+    color: #2D3748;
+    font-weight: bold;
+    font-size: 1rem;
+
+}
+
+.pagination-box .btn-prev {
+    display: flex;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    border: none;
+    background: url('../images/chevron-left.svg') no-repeat center;
+    box-sizing: border-box;
+}
+
+.pagination-box .btn-next {
+    display: flex;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 2rem;
+    border: none;
+    background: url('../images/chevron-right.svg') no-repeat center;
+}

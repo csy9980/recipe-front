@@ -1,0 +1,36 @@
+.weather-box {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin: 1rem 0 2rem 0;
+}
+
+.weather-now {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.weather-now img {
+    display: inline-block;
+    width: 2rem;
+    height: 2rem;
+}
+
+.weather-btn-box button {
+    display: flex;
+    background-color: #38b2ac;
+    color: #fff;
+    outline: none;
+    border: none;
+    padding: 0.5rem 1rem;
+    box-sizing: border-box;
+    box-shadow: 3px 3px 10px rgba(56,178,172, 0.3);
+    border-radius: 2rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.weather-btn-box button:hover {
+    background-color: #4FD1C5;
+}

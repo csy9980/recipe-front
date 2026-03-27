@@ -1,0 +1,14 @@
+.keyword-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-top: 2rem;
+}
+
+.option-box {
+    display: flex;
+    justify-content:space-between
+    
+}
+
