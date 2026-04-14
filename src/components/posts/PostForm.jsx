@@ -10,6 +10,7 @@ function PostForm() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [files, setFiles] = useState([]);
+  const API_URL = process.env.REACT_APP_API_URL;
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -42,7 +43,7 @@ function PostForm() {
       files.forEach((file) => {
         form.append("files", file);
       });
-      const response = await fetch("/posts", {
+      const response = await fetch(`${API_URL}/posts`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,

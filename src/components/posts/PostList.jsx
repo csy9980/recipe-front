@@ -7,6 +7,7 @@ function PostList() {
   const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const API_URL = process.env.REACT_APP_API_URL;
 
   useEffect(() => {
     fetchPosts(currentPage);
@@ -15,7 +16,7 @@ function PostList() {
   const fetchPosts = async (page) => {
     try {
       setLoading(true);
-      const response = await fetch(`/posts?page=${page}`);
+      const response = await fetch(`${API_URL}/posts?page=${page}`);
       const data = await response.json();
 
       if (!response.ok) {

@@ -13,19 +13,20 @@ function EditPost({ user }) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [submitting, setSubmitting] = useState(false);
+  const API_URL = process.env.REACT_APP_API_URL;
 
   useEffect(() => {
 
     const fetchPost = async () => {
       try {
         setLoading(true);
-        const response = await fetch(`/posts/${id}`);
+        const response = await fetch(`${API_URL}/posts/${id}`);
         const data = await response.json();
 
         if (!response.ok) {
           throw new Error(data.message || "게시글을 불러오는데 실패했습니다.");
         }
-        if (data.data.authorId !== user.id) {
+        if (!user || data.data.authorId !== user.id) {
           navigate("/");
           return;
         }
@@ -83,7 +84,7 @@ function EditPost({ user }) {
       newFiles.forEach((file) => {
         form.append("files", file);
       });
-      const response = await fetch(`/posts/${id}`, {
+      const response = await fetch(`${API_URL}/posts/${id}`, {
         method: "PUT",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -94,7 +95,7 @@ function EditPost({ user }) {
       if (!response.ok) {
         throw new Error(data.message || "게시글 수정에 실패했습니다.");
       }
-      navigate(`/posts/${id}`);
+      navigate(`${API_URL}/posts/${id}`);
     } catch (err) {
       console.error("게시글 수정 중 오류가 발생했습니다. :", err);
       setError("게시글 수정에 실패했습니다.");

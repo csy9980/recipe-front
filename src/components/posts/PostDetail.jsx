@@ -10,16 +10,19 @@ function PostDetail({ isAuthenticated, user }) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [submitting, setSubmitting] = useState(false);
+  const API_URL = process.env.REACT_APP_API_URL;
 
   useEffect(() => {
+    if(!id) return;
+
     fetchPost();
     fetchComments();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [id]);
+  }, [id, API_URL]);
 
   const fetchPost = async () => {
     try {
-      const response = await fetch(`/posts/${id}`);
+      const response = await fetch(`${API_URL}/posts/${id}`);
       const data = await response.json();
 
       if (!response.ok) {
@@ -37,7 +40,7 @@ function PostDetail({ isAuthenticated, user }) {
 
   const fetchComments = async () => {
     try {
-      const response = await fetch(`/posts/${id}/comments`);
+      const response = await fetch(`${API_URL}/posts/${id}/comments`);
       const data = await response.json();
       if (!response.ok) {
         throw new Error(data.message || "댓글을 불러오는데 실패했습니다.");
@@ -53,7 +56,7 @@ function PostDetail({ isAuthenticated, user }) {
       return;
     }
     try {
-      const response = await fetch(`/posts/${id}`, {
+      const response = await fetch(`${API_URL}/posts/${id}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -78,7 +81,7 @@ function PostDetail({ isAuthenticated, user }) {
 
     try {
       setSubmitting(true);
-      const response = await fetch(`/posts/${id}/comments`, {
+      const response = await fetch(`${API_URL}/posts/${id}/comments`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -94,7 +97,7 @@ function PostDetail({ isAuthenticated, user }) {
       setNewComment("");
       fetchComments();
     } catch (err) {
-      console.err("댓글 작성 중 오류가 발생했습니다.:", err);
+      console.error("댓글 작성 중 오류가 발생했습니다.:", err);
       alert("댓글 작성에 실패했습니다.");
     } finally {
       setSubmitting(false);
@@ -106,7 +109,7 @@ function PostDetail({ isAuthenticated, user }) {
       return;
     }
     try {
-      const response = await fetch(`/posts/${id}/comments/${commentId}`, {
+      const response = await fetch(`${API_URL}/posts/${id}/comments/${commentId}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -156,7 +159,7 @@ function PostDetail({ isAuthenticated, user }) {
                     <a
                       href={
                         file.path
-                          ? `http://localhost:3000/downloads/${encodeURIComponent(
+                          ? `${API_URL}/downloads/${encodeURIComponent(
                               file.filename
                             )}`
                           : "#"
