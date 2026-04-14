@@ -9,30 +9,32 @@ function PostList() {
   const [error, setError] = useState(null);
   const API_URL = process.env.REACT_APP_API_URL;
 
-  const fetchPosts = async (page) => {
-    try {
-      setLoading(true);
-      const response = await fetch(`${API_URL}/posts?page=${page}`);
-      const data = await response.json();
 
-      if (!response.ok) {
-        throw new Error(data.message || "게시글을 불러오는데 실패했습니다.");
-      }
-      setPosts(data.data.posts || []);
-      setTotalPages(
-        (data.data.pagination && data.data.pagination.totalPages) || 1
-      );
-      setError(null);
-    } catch (err) {
-      console.error("오류가 발생했습니다.", err);
-      setError("게시글을 불러오는데 실패했습니다.");
-    } finally {
-      setLoading(false);
-    }
-  };
 
   useEffect(() => {
-    fetchPosts(currentPage);
+    const fetchPosts = async (page) => {
+      try {
+        setLoading(true);
+        const response = await fetch(`${API_URL}/posts?page=${page}`);
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.message || "게시글을 불러오는데 실패했습니다.");
+        }
+        setPosts(data.data.posts || []);
+        setTotalPages(
+          (data.data.pagination && data.data.pagination.totalPages) || 1
+        );
+        setError(null);
+      } catch (err) {
+        console.error("오류가 발생했습니다.", err);
+        setError("게시글을 불러오는데 실패했습니다.");
+      } finally {
+        setLoading(false);
+      }
+    };
+    
+    fetchPosts();
   }, [currentPage, API_URL]);
   // eslint-disable-next-line
 
