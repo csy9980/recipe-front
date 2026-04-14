@@ -12,40 +12,43 @@ function PostDetail({ isAuthenticated, user }) {
   const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
+
+    const fetchPost = async () => {
+      try {
+        const response = await fetch(`/posts/${id}`);
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.message || "게시글을 불러오는데 실패했습니다.");
+        }
+        setPost(data.data);
+        setError(null);
+      } catch (err) {
+        console.error("게시글을 불러오는데 실패했습니다. :", err);
+        setError("게시글을 불러오는데 실패했습니다.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    const fetchComments = async () => {
+      try {
+        const response = await fetch(`/posts/${id}/comments`);
+        const data = await response.json();
+        if (!response.ok) {
+          throw new Error(data.message || "댓글을 불러오는데 실패했습니다.");
+        }
+        setComments(data.data || []);
+      } catch (err) {
+        console.error("댓글을 불러오는 중 오류가 발생했습니다. :", err);
+      }
+    };
+
     fetchPost();
     fetchComments();
   }, [id]);
 
-  const fetchPost = async () => {
-    try {
-      const response = await fetch(`/posts/${id}`);
-      const data = await response.json();
 
-      if (!response.ok) {
-        throw new Error(data.message || "게시글을 불러오는데 실패했습니다.");
-      }
-      setPost(data.data);
-      setError(null);
-    } catch (err) {
-      console.error("게시글을 불러오는데 실패했습니다. :", err);
-      setError("게시글을 불러오는데 실패했습니다.");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const fetchComments = async () => {
-    try {
-      const response = await fetch(`/posts/${id}/comments`);
-      const data = await response.json();
-      if (!response.ok) {
-        throw new Error(data.message || "댓글을 불러오는데 실패했습니다.");
-      }
-      setComments(data.data || []);
-    } catch (err) {
-      console.error("댓글을 불러오는 중 오류가 발생했습니다. :", err);
-    }
-  };
 
   const handleDelete = async () => {
     if (!window.confirm("정말로 이 게시글을 삭제하시겠습니까?")) {

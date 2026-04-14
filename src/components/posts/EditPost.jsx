@@ -15,36 +15,39 @@ function EditPost({ user }) {
   const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
+
+    const fetchPost = async () => {
+      try {
+        setLoading(true);
+        const response = await fetch(`/posts/${id}`);
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.message || "게시글을 불러오는데 실패했습니다.");
+        }
+        if (data.data.authorId !== user.id) {
+          navigate("/");
+          return;
+        }
+
+        setFormData({
+          title: data.data.title,
+          content: data.data.content,
+        });
+        setAttachments(data.data.attachments || []);
+        setError(null);
+      } catch (err) {
+        console.error("게시글을 불러오는데 실패했습니다. :", err);
+        setError("게시글을 불러오는데 실패했습니다.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
     fetchPost();
-  }, [id]);
+  }, [id, user?.id, navigate]);
 
-  const fetchPost = async () => {
-    try {
-      setLoading(true);
-      const response = await fetch(`/posts/${id}`);
-      const data = await response.json();
 
-      if (!response.ok) {
-        throw new Error(data.message || "게시글을 불러오는데 실패했습니다.");
-      }
-      if (data.data.authorId !== user.id) {
-        navigate("/");
-        return;
-      }
-
-      setFormData({
-        title: data.data.title,
-        content: data.data.content,
-      });
-      setAttachments(data.data.attachments || []);
-      setError(null);
-    } catch (err) {
-      console.error("게시글을 불러오는데 실패했습니다. :", err);
-      setError("게시글을 불러오는데 실패했습니다.");
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
