@@ -7,6 +7,9 @@ import FilterOption from './FilterOption';
 import Weather from './Weather';
 import '../styles/SearchByKeyword.css'
 
+const apiKey = `67a5801a75e74408977cf263fa6ef898`;
+const weatherApiKey = 'c0a7c729e2c48706d6ab5b2450d1aae9';
+
 function SearchByKeyword() {
     const [query, setQuery] = useState('');
     const [recipe, setRecipe] = useState([]);
@@ -16,8 +19,7 @@ function SearchByKeyword() {
     const [selectedRecipeId, setSelectedRecipeId] = useState(null);
     const [searchInput, setSearchInput] = useState('');
     const [showOptions, setShowOptions] = useState(false);
-    const apiKey = `67a5801a75e74408977cf263fa6ef898`;
-    const weatherApiKey = 'c0a7c729e2c48706d6ab5b2450d1aae9';
+
     const numberPerPage = 9;
     const[filters, setFilters]=useState({
         vegan: false,
