@@ -46,7 +46,7 @@ function EditPost({ user }) {
     };
 
     fetchPost();
-  }, [id, user?.id, navigate]);
+  }, [id, user, navigate, API_URL]);
 
 
 

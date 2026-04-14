@@ -9,10 +9,6 @@ function PostList() {
   const [error, setError] = useState(null);
   const API_URL = process.env.REACT_APP_API_URL;
 
-  useEffect(() => {
-    fetchPosts(currentPage);
-  }, [currentPage]);
-
   const fetchPosts = async (page) => {
     try {
       setLoading(true);
@@ -34,6 +30,12 @@ function PostList() {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    fetchPosts(currentPage);
+  }, [currentPage, API_URL]);
+  // eslint-disable-next-line
+
   const handlePageChange = (newPage) => {
     if (newPage >= 1 && newPage <= totalPages) {
       setCurrentPage(newPage);
