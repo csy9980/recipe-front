@@ -75,7 +75,7 @@ function SearchByKeyword() {
             }
         };
         findRecipe();
-    },[query, page, filters]);
+    },[query, page, filters.vegan, filters.glutenFree, filters.lowFodmap]);
 
     // query변경시 page값 1로 변경
     useEffect(() => {
